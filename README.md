@@ -1,36 +1,11 @@
-# Go Basic Web Project (Work in Progress)
+# Benchmark
 
-The goal of this project is to give a basic, simple and organized template for building your Web GoLang Application.
+## Insert
 
-## Project Structure
-This project structure was created using as basis [Package Oriented Design](https://www.ardanlabs.com/blog/2017/02/package-oriented-design.html)
-to organize files and folders.
-
-## API Design
-This template was designed using concepts of *Data Oriented Programming*.
-
-## Usage
-Using your terminal at root directory:
-```
-go run .
-```
-
-### Example
-```
-curl --location --request POST 'http://localhost:8080/basic' \
---header 'Content-Type: application/json' \
---data-raw '[
-    {
-        "id": 1,
-        "name": "Guest 1",
-        "age": 33
-    },
-    {
-        "id": 2,
-        "name": "Guest 2",
-        "age": 24
-    }
-]'
-```
-
-More examples can be found [here](./go-basic-project.postman_collection.json).
+| Name          | Duration     | Quantity of data | Method        | Workers | Processor                    | Memory              | Database |
+| ------------- | ------------ | ---------------- | ------------- | ------- | ---------------------------- | ------------------- | -------- |
+| Single Thread | 2.212488ms   | 1000             | Single Thread | 1       | 2,6 GHz 6-Core Intel Core i7 | 16 GB 2667 MHz DDR4 | map      |
+| Single Thread | 17.969686ms  | 10000            | Single Thread | 1       | 2,6 GHz 6-Core Intel Core i7 | 16 GB 2667 MHz DDR4 | map      |
+| Single Thread | 144.903437ms | 100000           | Single Thread | 1       | 2,6 GHz 6-Core Intel Core i7 | 16 GB 2667 MHz DDR4 | map      |
+| Single Thread | 1.564306457s | 1000000          | Single Thread | 1       | 2,6 GHz 6-Core Intel Core i7 | 16 GB 2667 MHz DDR4 | map      |
+| Single Thread | 4.06782841s  | 3000000          | Single Thread | 1       | 2,6 GHz 6-Core Intel Core i7 | 16 GB 2667 MHz DDR4 | map      |
