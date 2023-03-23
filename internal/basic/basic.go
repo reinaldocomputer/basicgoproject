@@ -1,6 +1,11 @@
 package basic
 
-import "github.com/reinaldocomputer/basicgoproject/internal/platform/mockDB"
+import (
+	"github.com/reinaldocomputer/basicgoproject/internal/platform/mockDB"
+	"sync"
+)
+
+var mu sync.Mutex
 
 func NewBasic(r Request) *Basic {
 	return &Basic{
@@ -11,11 +16,13 @@ func NewBasic(r Request) *Basic {
 }
 
 func (b Basic) Insert() error {
+	mu.Lock()
 	err := mockDB.InsertBasic(mockDB.BasicSchema{
 		Id:   b.Id,
 		Name: b.Name,
 		Age:  b.Age,
 	})
+	mu.Unlock()
 	return err
 }
 

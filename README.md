@@ -1,36 +1,11 @@
-# Go Basic Web Project (Work in Progress)
+# Benchmark
 
-The goal of this project is to give a basic, simple and organized template for building your Web GoLang Application.
+## Insert
 
-## Project Structure
-This project structure was created using as basis [Package Oriented Design](https://www.ardanlabs.com/blog/2017/02/package-oriented-design.html)
-to organize files and folders.
-
-## API Design
-This template was designed using concepts of *Data Oriented Programming*.
-
-## Usage
-Using your terminal at root directory:
-```
-go run .
-```
-
-### Example
-```
-curl --location --request POST 'http://localhost:8080/basic' \
---header 'Content-Type: application/json' \
---data-raw '[
-    {
-        "id": 1,
-        "name": "Guest 1",
-        "age": 33
-    },
-    {
-        "id": 2,
-        "name": "Guest 2",
-        "age": 24
-    }
-]'
-```
-
-More examples can be found [here](./go-basic-project.postman_collection.json).
+| Name           | Duration     | Quantity of data | Method                 | Workers | Processor                    | Memory              | Database |
+| -------------- | ------------ | ---------------- | ---------------------- | ------- | ---------------------------- | ------------------- | -------- |
+| CLock 6workers | 3.043115ms   | 1000             | Channel and mutex lock | 6       | 2,6 GHz 6-Core Intel Core i7 | 16 GB 2667 MHz DDR4 | map      |
+| CLock 6workers | 27.125452ms  | 10000            | Channel and mutex lock | 6       | 2,6 GHz 6-Core Intel Core i7 | 16 GB 2667 MHz DDR4 | map      |
+| CLock 6workers | 157.20645ms  | 100000           | Channel and mutex lock | 6       | 2,6 GHz 6-Core Intel Core i7 | 16 GB 2667 MHz DDR4 | map      |
+| CLock 6workers | 1.243096578s | 1000000          | Channel and mutex lock | 6       | 2,6 GHz 6-Core Intel Core i7 | 16 GB 2667 MHz DDR4 | map      |
+| CLock 6workers | 3.713871219s | 3000000          | Channel and mutex lock | 6       | 2,6 GHz 6-Core Intel Core i7 | 16 GB 2667 MHz DDR4 | map      |

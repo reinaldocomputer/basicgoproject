@@ -6,25 +6,55 @@ import (
 	"github.com/reinaldocomputer/basicgoproject/internal/platform/mockDB"
 	"net/http"
 	"strconv"
+	"time"
 )
 
+// set the number of works to use, generally, quantity of cores.
+const numWorkers = 6
+
 func InsertBasic(c *gin.Context) {
+	startTime := time.Now()
+	// check request schema
 	basicData := []basic.Request{}
 	if err := c.ShouldBindJSON(&basicData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	// create a channel to receive data to insert
+	dataChan := make(chan *basic.Basic, len(basicData))
+
+	//start the workers
+	for i := 0; i < numWorkers; i++ {
+		go func(worker int) {
+			for data := range dataChan {
+				//fmt.Println("W:", worker, " Inserting Data: ", data.Id)
+				// insert Data in DB using a GoRoutine
+				if err := data.Insert(); err != nil {
+					c.JSON(http.StatusInternalServerError, `
+						{
+							"status": "OK",
+							"message" "Data inserted with success.",
+						}
+					`)
+					return
+				}
+			}
+		}(i)
+	}
 	for _, data := range basicData {
 		newBasicData := basic.NewBasic(data)
-		if err := newBasicData.Insert(); err != nil {
-			c.JSON(http.StatusInternalServerError, err.Error())
-			return
-		}
+		// put data in channel
+		dataChan <- newBasicData
 	}
+
+	close(dataChan)
+	totalTime := time.Now().Sub(startTime)
+
 	c.JSON(http.StatusOK, `
 		{ 
 			"status": "OK",
-			"message" "Data inserted with success.",
+			"message": "Data inserted with success.",
+			"totalTime":`+totalTime.String()+`
 		}
 	`)
 }
@@ -115,5 +145,5 @@ func GetBasicAll(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, data)
+	c.JSON(http.StatusOK, len(data))
 }
